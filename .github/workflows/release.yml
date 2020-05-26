@@ -3,7 +3,7 @@ name: Tag and release
 on:
   push:
     branches:
-      - master
+      - test
     paths:
       - 'lib/r10k/version.rb'
 
@@ -15,14 +15,11 @@ jobs:
         with:
           fetch-depth: '0'
       - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@1.17.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.PUPPET_RELEASE_GH_TOKEN }}
-          DEFAULT_BUMP: patch
-          WITH_V: false
-          # Uncomment this if the tag and version file become out-of-sync and
-          # you need to tag at a specific version.
-          # CUSTOM_TAG:
+        uses: mathieudutour/github-tag-action@v4
+        with:
+          github_token: ${{ secrets.GH_AUTH_TOKEN }}
+          tag_prefix: ''
+          create_annotated_tag: true
       - name: Build gem
         uses: scarhand/actions-ruby@master
         with:
